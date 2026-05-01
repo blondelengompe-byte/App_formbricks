@@ -31,15 +31,11 @@ jobs:
         run: |
           docker push ${{ steps.ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
-      - name: Deploy on EC2
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd /opt/formbricks
-            sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${{ github.sha }}/" .env
-            docker compose pull
-            docker compose up -d --remove-orphans
-            docker system prune -f
+      - name: Deploy on EC2 (SSM)
+        run: |
+          aws ssm send-command \
+            --region ${{ secrets.AWS_REGION }} \
+            --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy Formbricks" \
+            --parameters commands="cd /opt/formbricks,sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=${{ github.sha }}/' .env,docker compose pull,docker compose up -d --remove-orphans,docker system prune -f"
