@@ -38,4 +38,4 @@ jobs:
             --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy Formbricks" \
-            --parameters commands="cd /opt/formbricks,sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=${{ github.sha }}/' .env,docker compose pull,docker compose up -d --remove-orphans,docker system prune -f"
+            --parameters 'commands=["cd /opt/formbricks","sed -i s/^IMAGE_TAG=.*/IMAGE_TAG=${{ github.sha }}/ .env","docker compose pull","docker compose up -d --remove-orphans","docker system prune -f"]'
