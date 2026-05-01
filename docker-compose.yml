@@ -23,7 +23,7 @@ services:
       options:
         awslogs-region: ${AWS_REGION}
         awslogs-group: /formbricks/app
-        awslogs-stream-prefix: app
+        awslogs-create-group: "true"
 
   db:
     image: pgvector/pgvector:pg15
@@ -43,7 +43,7 @@ services:
       options:
         awslogs-region: ${AWS_REGION}
         awslogs-group: /formbricks/db
-        awslogs-stream-prefix: db
+        awslogs-create-group: "true"
 
   redis:
     image: valkey/valkey:7.2-alpine
@@ -62,7 +62,7 @@ services:
       options:
         awslogs-region: ${AWS_REGION}
         awslogs-group: /formbricks/redis
-        awslogs-stream-prefix: redis
+        awslogs-create-group: "true"
 
   nginx:
     image: nginx:1.25-alpine
@@ -80,7 +80,7 @@ services:
       options:
         awslogs-region: ${AWS_REGION}
         awslogs-group: /formbricks/nginx
-        awslogs-stream-prefix: nginx
+        awslogs-create-group: "true"
 
 networks:
   app-net:
