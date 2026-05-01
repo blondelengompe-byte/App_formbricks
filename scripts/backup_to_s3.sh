@@ -1,6 +1,13 @@
 #!/usr/bin/env sh
 set -eu
 
+# Load env vars when running from cron or interactive shell
+if [ -f /opt/formbricks/.env ]; then
+	set -a
+	. /opt/formbricks/.env
+	set +a
+fi
+
 DATE_TAG=$(date -u +"%Y%m%dT%H%M%SZ")
 BACKUP_DIR="/opt/formbricks/backups"
 BACKUP_FILE="${BACKUP_DIR}/formbricks_${DATE_TAG}.sql.gz"
