@@ -66,6 +66,7 @@ services:
 
   nginx:
     image: owasp/modsecurity-crs:nginx
+    user: "0:0"
     ports:
       - "80:80"
     volumes:
