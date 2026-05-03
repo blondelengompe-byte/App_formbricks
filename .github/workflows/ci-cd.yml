@@ -38,4 +38,4 @@ jobs:
             --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy Formbricks" \
-            --parameters 'commands=["cd /opt/formbricks","git pull","sed -i s/^IMAGE_TAG=.*/IMAGE_TAG=${{ github.sha }}/ .env","docker compose pull","docker compose up -d --remove-orphans","docker system prune -f"]'
+            --parameters 'commands=["git config --global --add safe.directory /opt/formbricks","cd /opt/formbricks","git reset --hard","git pull","aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}","sed -i s/^IMAGE_TAG=.*/IMAGE_TAG=${{ github.sha }}/ .env","docker compose pull || docker compose build app","docker compose up -d --remove-orphans --scale app=2","docker system prune -f"]'
