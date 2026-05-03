@@ -69,6 +69,7 @@ services:
     user: "0:0"
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx/nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
       - ./nginx/modsecurity.conf.template:/etc/nginx/templates/modsecurity.d/modsecurity.conf.template:ro
