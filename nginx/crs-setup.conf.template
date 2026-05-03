@@ -1,0 +1,2 @@
+# OWASP CRS setup overrides (minimal)
+SecAction "id:900110,phase:1,pass,nolog,t:none,setvar:tx.paranoia_level=1"

@@ -1,0 +1,15 @@
+# Minimal ModSecurity config for OWASP CRS
+SecRuleEngine On
+SecRequestBodyAccess On
+SecResponseBodyAccess Off
+
+SecRequestBodyLimit 10485760
+SecRequestBodyNoFilesLimit 1048576
+
+SecAuditEngine RelevantOnly
+SecAuditLogParts ABIJDEFHZ
+SecAuditLog /var/log/modsec_audit.log
+
+# Include CRS setup and rules
+Include /etc/nginx/modsecurity.d/setup.conf
+Include /etc/nginx/modsecurity.d/rules/*.conf
